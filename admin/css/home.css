@@ -1,0 +1,265 @@
+:root {
+  --primary-blue: #0b2c3d;
+  --primary-blue-dark: #2f3e46;
+  --primary-blue-light: #3385d6;
+
+  --accent-yellow: #ffd700;
+  --accent-yellow-dark: #e6c200;
+
+  --white: #ffffff;
+  --black: #000000;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+
+  --text-primary: var(--gray-900);
+  --text-secondary: var(--gray-600);
+  --text-inverse: var(--white);
+  --bg-primary: var(--white);
+  --bg-secondary: var(--gray-50);
+  --border-color: var(--gray-200);
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  --transition-fast: all 0.15s ease;
+  --transition-normal: all 0.3s ease;
+  --transition-slow: all 0.5s ease;
+
+  --sidebar-width: 280px;
+  --header-height: 80px;
+}
+
+body {
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-secondary);
+}
+
+.content-body {
+  padding: 2rem;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
+}
+
+.card.messages-card {
+  border-top: 4px solid var(--primary-blue-light);
+}
+
+.card.requests-card {
+  border-top: 4px solid var(--accent-yellow);
+}
+
+.card.residents-card {
+  border-top: 4px solid var(--primary-blue);
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.messages-card .card-header {
+  background: linear-gradient(135deg, var(--primary-blue-light), #4a9eff);
+  color: var(--text-inverse);
+  padding: 1.5rem 2rem;
+  border-bottom: none;
+  position: relative;
+}
+
+.requests-card .card-header {
+  background: linear-gradient(135deg, var(--accent-yellow), #ffed4a);
+  color: var(--gray-800);
+  padding: 1.5rem 2rem;
+  border-bottom: none;
+}
+
+.residents-card .card-header {
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue),
+    var(--primary-blue-dark)
+  );
+  color: var(--text-inverse);
+  padding: 1.5rem 2rem;
+  border-bottom: none;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.messages-card .card-title,
+.residents-card .card-title {
+  color: var(--text-inverse);
+}
+
+.requests-card .card-title {
+  color: var(--gray-800);
+}
+
+.view-all-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-inverse);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  backdrop-filter: blur(10px);
+}
+
+.requests-card .view-all-btn {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--gray-800);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.view-all-btn i {
+  font-size: 0.75rem;
+}
+
+.card-content {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+  background-color: var(--bg-secondary);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.8125rem;
+}
+
+.data-table td {
+  color: var(--text-secondary);
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: var(--gray-50);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.card-full-width {
+  grid-column: span 2;
+}
+
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #dc2626;
+  color: var(--white);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  z-index: 1;
+}
+
+
+.data-table td.unread {
+  font-weight: 600; 
+}
+
+.data-table td.unread::before {
+  content: "•"; 
+  color: #dc2626;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content-body {
+    padding: 1rem;
+  }
+
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card-full-width {
+    grid-column: span 1;
+  }
+
+  .card {
+    padding: 0;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .badge {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .data-table td.unread::before {
+    margin-right: 0.3rem; 
+  }
+}
