@@ -37,6 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['toast_message'] = "Official added successfully!";
         $_SESSION['toast_type'] = "success";
+
+
+        require_once __DIR__ . "/utils.php";
+        logActivity($_SESSION['user_id'], "Added a new official. Name: $name");
     }
 
     // Update official
@@ -163,7 +167,7 @@ $officials = $stmt->fetchAll();
     <title>Barangay Officials - Tinga Labak</title>
     <link rel="icon" href="../imgs/brgy-logo.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="sidebar/styles.css">
     <link rel="stylesheet" href="css/officials.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -491,42 +495,42 @@ $officials = $stmt->fetchAll();
 
     </main>
     <script>
-    const modal = document.getElementById('officialModal');
-    const addBtn = document.getElementById('addOfficialBtn');
-    const closeBtn = document.getElementById('closeModal');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const modalTitle = document.getElementById('modalTitle');
-    const submitBtn = document.getElementById('submitBtn');
+        const modal = document.getElementById('officialModal');
+        const addBtn = document.getElementById('addOfficialBtn');
+        const closeBtn = document.getElementById('closeModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const submitBtn = document.getElementById('submitBtn');
 
-    addBtn.addEventListener('click', () => {
-        resetForm();
-        modalTitle.textContent = 'Add New Official';
-        submitBtn.innerHTML = '<i class="fas fa-save"></i> Add Official';
-        submitBtn.setAttribute('name', 'add_official');
-        modal.style.display = 'block';
-    });
+        addBtn.addEventListener('click', () => {
+            resetForm();
+            modalTitle.textContent = 'Add New Official';
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Add Official';
+            submitBtn.setAttribute('name', 'add_official');
+            modal.style.display = 'block';
+        });
 
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    cancelBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        closeBtn.addEventListener('click', () => {
             modal.style.display = 'none';
-        }
-    });
+        });
 
-    function resetForm() {
-        document.getElementById('officialForm').reset();
-        document.getElementById('official_id').value = '';
-        
-        // Reset file upload display
-        const fileUploadDisplay = document.querySelector('.file-upload-display');
-        fileUploadDisplay.innerHTML = `
+        cancelBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        function resetForm() {
+            document.getElementById('officialForm').reset();
+            document.getElementById('official_id').value = '';
+
+            // Reset file upload display
+            const fileUploadDisplay = document.querySelector('.file-upload-display');
+            fileUploadDisplay.innerHTML = `
             <div class="file-upload-icon">
                 <i class="fas fa-camera"></i>
             </div>
@@ -535,58 +539,58 @@ $officials = $stmt->fetchAll();
                 <span class="file-upload-hint">PNG, JPG up to 5MB</span>
             </div>
         `;
-        
-        // Reset submit button for add mode
-        submitBtn.innerHTML = '<i class="fas fa-save"></i> Add Official';
-        submitBtn.setAttribute('name', 'add_official');
-    }
 
-    function editOfficial(id) {
-        console.log('Editing official with ID:', id); // Debug log
-        
-        fetch(`get_official.php?official_id=${id}`)
-            .then(response => {
-                console.log('Response status:', response.status); // Debug log
-                console.log('Response headers:', response.headers.get('content-type')); // Debug log
-                
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    return response.text().then(text => {
-                        console.log('Non-JSON response:', text); // Debug log
-                        throw new Error('Server returned non-JSON response. Check console for details.');
-                    });
-                }
-                
-                if (!response.ok) {
-                    return response.json().then(err => {
-                        throw new Error(err.error || `HTTP error! status: ${response.status}`);
-                    }).catch(() => {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Official data:', data); // Debug log
-                
-                if (data.error) {
-                    throw new Error(data.error);
-                }
+            // Reset submit button for add mode
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Add Official';
+            submitBtn.setAttribute('name', 'add_official');
+        }
 
-                // Populate form fields
-                document.getElementById('official_id').value = data.official_id;
-                document.getElementById('name').value = data.name || '';
-                document.getElementById('position').value = data.position || '';
-                document.getElementById('date_inducted').value = data.date_inducted || '';
-                document.getElementById('status').value = data.status || 'Active';
-                document.getElementById('contact_number').value = data.contact_number || '';
-                document.getElementById('address').value = data.address || '';
+        function editOfficial(id) {
+            console.log('Editing official with ID:', id); // Debug log
 
-                // Handle avatar preview
-                const fileUploadDisplay = document.querySelector('.file-upload-display');
-                if (data.avatar && data.avatar.trim() !== '') {
-                    fileUploadDisplay.innerHTML = `
+            fetch(`get_official.php?official_id=${id}`)
+                .then(response => {
+                    console.log('Response status:', response.status); // Debug log
+                    console.log('Response headers:', response.headers.get('content-type')); // Debug log
+
+                    // Check if response is JSON
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        return response.text().then(text => {
+                            console.log('Non-JSON response:', text); // Debug log
+                            throw new Error('Server returned non-JSON response. Check console for details.');
+                        });
+                    }
+
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            throw new Error(err.error || `HTTP error! status: ${response.status}`);
+                        }).catch(() => {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Official data:', data); // Debug log
+
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+
+                    // Populate form fields
+                    document.getElementById('official_id').value = data.official_id;
+                    document.getElementById('name').value = data.name || '';
+                    document.getElementById('position').value = data.position || '';
+                    document.getElementById('date_inducted').value = data.date_inducted || '';
+                    document.getElementById('status').value = data.status || 'Active';
+                    document.getElementById('contact_number').value = data.contact_number || '';
+                    document.getElementById('address').value = data.address || '';
+
+                    // Handle avatar preview
+                    const fileUploadDisplay = document.querySelector('.file-upload-display');
+                    if (data.avatar && data.avatar.trim() !== '') {
+                        fileUploadDisplay.innerHTML = `
                         <div class="file-preview">
                             <img src="${data.avatar}" alt="Preview" style="max-width: 100px; max-height: 100px; object-fit: cover; border-radius: 4px;">
                         </div>
@@ -595,8 +599,8 @@ $officials = $stmt->fetchAll();
                             <span class="file-upload-hint">Click to change (PNG, JPG up to 5MB)</span>
                         </div>
                     `;
-                } else {
-                    fileUploadDisplay.innerHTML = `
+                    } else {
+                        fileUploadDisplay.innerHTML = `
                         <div class="file-upload-icon">
                             <i class="fas fa-camera"></i>
                         </div>
@@ -605,47 +609,47 @@ $officials = $stmt->fetchAll();
                             <span class="file-upload-hint">PNG, JPG up to 5MB</span>
                         </div>
                     `;
-                }
+                    }
 
-                // Update modal title and submit button
-                modalTitle.textContent = 'Edit Official';
-                submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Official';
-                submitBtn.setAttribute('name', 'update_official');
-                
-                // Show modal
-                modal.style.display = 'block';
-            })
-            .catch(error => {
-                console.error('Error:', error); // Debug log
-                Toastify({
-                    text: error.message || "Failed to load official data",
-                    duration: 5000,
-                    gravity: "top",
-                    position: "right",
-                    backgroundColor: "#dc3545",
-                    stopOnFocus: true,
-                }).showToast();
-            });
-    }
+                    // Update modal title and submit button
+                    modalTitle.textContent = 'Edit Official';
+                    submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Official';
+                    submitBtn.setAttribute('name', 'update_official');
 
-    function deleteOfficial(id, name) {
-        document.getElementById('deleteOfficialId').value = id;
-        document.getElementById('deleteOfficialName').textContent = name;
-        document.getElementById('deleteModal').style.display = 'block';
-    }
+                    // Show modal
+                    modal.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Debug log
+                    Toastify({
+                        text: error.message || "Failed to load official data",
+                        duration: 5000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "#dc3545",
+                        stopOnFocus: true,
+                    }).showToast();
+                });
+        }
 
-    function closeDeleteModal() {
-        document.getElementById('deleteModal').style.display = 'none';
-    }
+        function deleteOfficial(id, name) {
+            document.getElementById('deleteOfficialId').value = id;
+            document.getElementById('deleteOfficialName').textContent = name;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
 
-    // File upload preview
-    document.getElementById('avatar').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const display = document.querySelector('.file-upload-display');
-                display.innerHTML = `
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        // File upload preview
+        document.getElementById('avatar').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const display = document.querySelector('.file-upload-display');
+                    display.innerHTML = `
                     <div class="file-preview">
                         <img src="${e.target.result}" alt="Preview" style="max-width: 100px; max-height: 100px; object-fit: cover; border-radius: 4px;">
                     </div>
@@ -654,35 +658,35 @@ $officials = $stmt->fetchAll();
                         <span class="file-upload-hint">Click to change</span>
                     </div>
                 `;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
-    // Search form auto-submit with debounce
-    let searchTimeout;
-    document.querySelector('.search-input').addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            this.form.submit();
-        }, 500);
-    });
+        // Search form auto-submit with debounce
+        let searchTimeout;
+        document.querySelector('.search-input').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                this.form.submit();
+            }, 500);
+        });
 
-    <?php if (isset($_SESSION['toast_message'])): ?>
-        Toastify({
-            text: "<?php echo $_SESSION['toast_message']; ?>",
-            duration: 5000,
-            gravity: "top",
-            position: "right",
-            backgroundColor: "<?php echo $_SESSION['toast_type'] === 'success' ? '#28a745' : '#dc3545'; ?>",
-            stopOnFocus: true,
-        }).showToast();
-        <?php
-        unset($_SESSION['toast_message']);
-        unset($_SESSION['toast_type']);
-        ?>
-    <?php endif; ?>
-</script>
+        <?php if (isset($_SESSION['toast_message'])): ?>
+            Toastify({
+                text: "<?php echo $_SESSION['toast_message']; ?>",
+                duration: 5000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "<?php echo $_SESSION['toast_type'] === 'success' ? '#28a745' : '#dc3545'; ?>",
+                stopOnFocus: true,
+            }).showToast();
+            <?php
+            unset($_SESSION['toast_message']);
+            unset($_SESSION['toast_type']);
+            ?>
+        <?php endif; ?>
+    </script>
 </body>
 
 </html>

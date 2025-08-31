@@ -26,6 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['toast_message'] = "Event added successfully!";
         $_SESSION['toast_type'] = "success";
+
+        require_once __DIR__ . "/utils.php";
+        logActivity(
+            $_SESSION['user_id'],
+            "Added a new schedule: {$title} (Date: {$event_date}, Description: {$description})"
+        );
     }
 
     // Update event
@@ -119,7 +125,7 @@ $events = $stmt->fetchAll();
     <title>Schedules - Barangay Tinga Labak</title>
     <link rel="icon" href="brgy-logo.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <link rel="stylesheet" href="sidebar/styles.css">

@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['document_request'])) 
     if (isset($_FILES['proof_of_identity']) && $_FILES['proof_of_identity']['error'] !== UPLOAD_ERR_NO_FILE) {
         if ($_FILES['proof_of_identity']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = 'admin/uploads/validID/';
-            $dbUploadDir = 'uploads/validID/'; // Path to store in DB (without admin/)
+            $dbUploadDir = 'uploads/validID/'; 
 
             // Create directory if it doesn't exist
             if (!is_dir($uploadDir)) {

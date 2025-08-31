@@ -39,7 +39,7 @@
 }
 
 body {
-  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
   margin: 0;
   padding: 0;
@@ -79,9 +79,9 @@ body {
   border-top: 4px solid var(--primary-blue);
 }
 
-.card-body {
+/* .card-body {
   padding: 2rem;
-}
+} */
 
 .card-header {
   display: flex;
@@ -97,6 +97,15 @@ body {
   padding: 1.5rem 2rem;
   border-bottom: none;
   position: relative;
+}
+
+.sender-name {
+  text-decoration: none;
+  color: var(--black);
+}
+
+.sender-name:hover {
+  text-decoration: underline;
 }
 
 .requests-card .card-header {
@@ -260,7 +269,7 @@ body {
   }
 
   .card-body {
-    padding: 1.5rem;
+    /* padding: 1.5rem; */
     overflow-y: scroll;
   }
 

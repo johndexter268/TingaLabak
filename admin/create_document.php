@@ -40,7 +40,7 @@ try {
     <title>Create Document - Barangay Tinga Labak</title>
     <link rel="icon" href="../imgs/BatangasCity.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=stylesheet" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=stylesheet" rel="stylesheet">
     <link rel="stylesheet" href="sidebar/styles.css">
     <link rel="stylesheet" href="css/documents.css">
     <link rel="stylesheet" href="css/createdocument.css">

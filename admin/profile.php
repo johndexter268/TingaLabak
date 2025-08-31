@@ -16,6 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Store success message in session for Toastify
         $_SESSION['toast_message'] = "Profile updated successfully!";
         $_SESSION['toast_type'] = "success";
+
+        require_once __DIR__ . "/utils.php";
+        logActivity($_SESSION['user_id'], "$name updated profile information.");
     }
     
     if (isset($_POST['change_password'])) {
@@ -66,7 +69,7 @@ $user = $stmt->fetch();
     <title>My Profile - Tinga Labak</title>
     <link rel="icon" href="../imgs/brgy-logo.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="sidebar/styles.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">

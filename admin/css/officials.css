@@ -14,7 +14,7 @@
 }
 
 .add-btn {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', sans-serif;
   background: var(--primary-blue-light);
   color: var(--white);
   border: none;
@@ -81,7 +81,7 @@
 .search-input {
   flex: 1;
   padding: 0.75rem 0.75rem 0.75rem 2.5rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', sans-serif;
   border: none;
   font-size: 0.875rem;
   background: transparent;
@@ -289,7 +289,7 @@
   padding: 0.375rem 0.75rem;
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
@@ -678,7 +678,7 @@
 
 /* Button Styles */
 .btn {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', sans-serif;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   border: none;

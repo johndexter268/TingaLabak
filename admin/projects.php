@@ -19,6 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['toast_message'] = "Project added successfully!";
         $_SESSION['toast_type'] = "success";
+
+        require_once __DIR__ . "/utils.php";
+        logActivity(
+            $_SESSION['user_id'],
+            "Added a new project: {$project_name} (Budget: {$budget}, Status: {$status}, Location: {$location})"
+        );
     }
 
     // Update project
@@ -107,6 +113,7 @@ $projects = $stmt->fetchAll();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -114,12 +121,13 @@ $projects = $stmt->fetchAll();
     <link rel="icon" href="../imgs/brgy-logo.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="sidebar/styles.css">
     <link rel="stylesheet" href="css/projects.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
+
 <body>
     <?php include 'sidebar/sidebar.php'; ?>
 
@@ -204,10 +212,16 @@ $projects = $stmt->fetchAll();
                                 new Chart(ctx2, {
                                     type: 'doughnut',
                                     data: {
-                                        labels: [<?php foreach ($status_data as $data) { echo '"' . htmlspecialchars($data['status']) . '",'; } ?>],
+                                        labels: [<?php foreach ($status_data as $data) {
+                                                        echo '"' . htmlspecialchars($data['status']) . '",';
+                                                    } ?>],
                                         datasets: [{
-                                            data: [<?php foreach ($status_data as $data) { echo $data['count'] . ','; } ?>],
-                                            backgroundColor: [<?php foreach ($status_data as $data) { echo '"' . $status_colors[$data['status']] . '",'; } ?>],
+                                            data: [<?php foreach ($status_data as $data) {
+                                                        echo $data['count'] . ',';
+                                                    } ?>],
+                                            backgroundColor: [<?php foreach ($status_data as $data) {
+                                                                    echo '"' . $status_colors[$data['status']] . '",';
+                                                                } ?>],
                                             borderColor: ['#ffffff'],
                                             borderWidth: 2
                                         }]
@@ -222,7 +236,7 @@ $projects = $stmt->fetchAll();
                                                 labels: {
                                                     font: {
                                                         size: 12,
-                                                        family: "'Montserrat', sans-serif"
+                                                        family: "'Inter', sans-serif"
                                                     },
                                                     color: '#1F2A44'
                                                 }
@@ -365,7 +379,8 @@ $projects = $stmt->fetchAll();
                         $end = min($total_pages, $page + 2);
                         if ($start > 1):
                         ?>
-                            <a href="?<?php $query_params['page'] = 1; echo http_build_query($query_params); ?>" class="pagination-number">1</a>
+                            <a href="?<?php $query_params['page'] = 1;
+                                        echo http_build_query($query_params); ?>" class="pagination-number">1</a>
                             <?php if ($start > 2): ?>
                                 <span class="pagination-ellipsis">...</span>
                             <?php endif; ?>
@@ -381,7 +396,8 @@ $projects = $stmt->fetchAll();
                             <?php if ($end < $total_pages - 1): ?>
                                 <span class="pagination-ellipsis">...</span>
                             <?php endif; ?>
-                            <a href="?<?php $query_params['page'] = $total_pages; echo http_build_query($query_params); ?>" class="pagination-number"><?php echo $total_pages; ?></a>
+                            <a href="?<?php $query_params['page'] = $total_pages;
+                                        echo http_build_query($query_params); ?>" class="pagination-number"><?php echo $total_pages; ?></a>
                         <?php endif; ?>
                     </div>
 
@@ -631,7 +647,11 @@ $projects = $stmt->fetchAll();
                 document.getElementById('view_project_name').textContent = data.project_name || 'N/A';
                 document.getElementById('view_budget').textContent = data.budget ? `₱${Number(data.budget).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : 'N/A';
                 document.getElementById('view_status').textContent = data.status || 'N/A';
-                document.getElementById('view_start_date').textContent = data.start_date ? new Date(data.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A';
+                document.getElementById('view_start_date').textContent = data.start_date ? new Date(data.start_date).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                }) : 'N/A';
                 document.getElementById('view_location').textContent = data.location || 'N/A';
                 document.getElementById('view_description').textContent = data.description || 'No description available';
 
@@ -686,4 +706,5 @@ $projects = $stmt->fetchAll();
         ?>
     <?php endif; ?>
 </script>
+
 </html>

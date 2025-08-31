@@ -26,6 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['toast_message'] = "Announcement added successfully!";
         $_SESSION['toast_type'] = "success";
+
+        require_once __DIR__ . "/utils.php";
+        logActivity($_SESSION['user_id'], "Added a new announcement: {$title}");
     }
 
     // Update announcement
@@ -102,18 +105,20 @@ $announcements = $stmt->fetchAll();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Announcements - Barangay Tinga Labak</title>
     <link rel="icon" href="../imgs/brgy-logo.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="sidebar/styles.css">
     <link rel="stylesheet" href="css/announcements.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
+
 <body>
     <?php include 'sidebar/sidebar.php'; ?>
 
@@ -236,7 +241,8 @@ $announcements = $stmt->fetchAll();
                         $end = min($total_pages, $page + 2);
                         if ($start > 1):
                         ?>
-                            <a href="?<?php $query_params['page'] = 1; echo http_build_query($query_params); ?>" class="pagination-number">1</a>
+                            <a href="?<?php $query_params['page'] = 1;
+                                        echo http_build_query($query_params); ?>" class="pagination-number">1</a>
                             <?php if ($start > 2): ?>
                                 <span class="pagination-ellipsis">...</span>
                             <?php endif; ?>
@@ -252,7 +258,8 @@ $announcements = $stmt->fetchAll();
                             <?php if ($end < $total_pages - 1): ?>
                                 <span class="pagination-ellipsis">...</span>
                             <?php endif; ?>
-                            <a href="?<?php $query_params['page'] = $total_pages; echo http_build_query($query_params); ?>" class="pagination-number"><?php echo $total_pages; ?></a>
+                            <a href="?<?php $query_params['page'] = $total_pages;
+                                        echo http_build_query($query_params); ?>" class="pagination-number"><?php echo $total_pages; ?></a>
                         <?php endif; ?>
                     </div>
 
@@ -460,7 +467,11 @@ $announcements = $stmt->fetchAll();
                 }
 
                 document.getElementById('view_title').textContent = data.title || 'N/A';
-                document.getElementById('view_announcement_date').textContent = data.announcement_date ? new Date(data.announcement_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A';
+                document.getElementById('view_announcement_date').textContent = data.announcement_date ? new Date(data.announcement_date).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                }) : 'N/A';
                 document.getElementById('view_content').textContent = data.content || 'No content available';
                 const imageContainer = document.getElementById('view_image_container');
                 imageContainer.innerHTML = data.image ? `<img src="${data.image}" alt="Announcement Image" class="announcement-image">` : 'No image available';
@@ -516,4 +527,5 @@ $announcements = $stmt->fetchAll();
         ?>
     <?php endif; ?>
 </script>
+
 </html>

@@ -152,7 +152,7 @@ $requests = $stmt->fetchAll();
     <title>Documents - Barangay Tinga Labak</title>
     <link rel="icon" href="../imgs/brgy-logo.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=stylesheet">
     <link rel="stylesheet" href="sidebar/styles.css">
     <link rel="stylesheet" href="css/documents.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -255,11 +255,11 @@ $requests = $stmt->fetchAll();
                                                 title="View">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="btn-action btn-edit"
+                                            <!-- <button class="btn-action btn-edit"
                                                 onclick="editRequest(<?php echo $request['request_id']; ?>)"
                                                 title="Edit">
                                                 <i class="fas fa-edit"></i>
-                                            </button>
+                                            </button> -->
                                             <button class="btn-action btn-delete"
                                                 onclick="deleteRequest(<?php echo $request['request_id']; ?>, '<?php echo htmlspecialchars($request['firstname'] . ' ' . $request['lastname'], ENT_QUOTES); ?>')"
                                                 title="Delete">

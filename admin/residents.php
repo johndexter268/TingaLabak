@@ -105,7 +105,7 @@ $residents = $stmt->fetchAll();
     <link rel="icon" href="../imgs/brgy-logo.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="sidebar/styles.css">
     <link rel="stylesheet" href="css/residents.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -153,7 +153,7 @@ $residents = $stmt->fetchAll();
                                             labels: {
                                                 font: {
                                                     size: 12,
-                                                    family: "'Montserrat', sans-serif"
+                                                    family: "'Inter', sans-serif"
                                                 },
                                                 color: "#1F2A44"
                                             }

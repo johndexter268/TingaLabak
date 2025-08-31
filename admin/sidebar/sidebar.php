@@ -22,7 +22,7 @@ $nav_items = [
 ];
 
 $current_page = basename($_SERVER['PHP_SELF']);
-$page_title = "Documents Request"; 
+$page_title = "Dashboard"; 
 
 foreach ($nav_items as $name => $item) {
     if ($current_page === $item['link']) {
@@ -40,7 +40,7 @@ foreach ($nav_items as $name => $item) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 

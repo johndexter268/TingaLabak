@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <head>
                         <meta charset="UTF-8">
                         <style>
-                            body { font-family: "Montserrat", sans-serif; color: #0f172a; }
+                            body { font-family: "Inter", sans-serif; color: #0f172a; }
                             .container { max-width: 600px; margin: 0 auto; padding: 20px; background: #ffffff; border-radius: 12px; }
                             .header { text-align: center; padding-bottom: 20px; }
                             .header img { width: 80px; height: 80px; border-radius: 50%; border: 4px solid #ffd700; }

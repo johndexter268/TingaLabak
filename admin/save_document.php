@@ -51,7 +51,7 @@ try {
         }
         $base64_string = $dataParts[1];
         $pdf_data = base64_decode($base64_string, true);
-        
+
         if ($pdf_data === false) {
             throw new Exception("Invalid base64 PDF data");
         }
@@ -67,12 +67,12 @@ try {
         // Generate unique filename
         $filename = 'edited_document_' . $user_id . '_' . time() . '.pdf';
         $new_file_path = $uploads_dir . '/' . $filename;
-        
+
         // Save PDF file
         if (!file_put_contents($new_file_path, $pdf_data)) {
             throw new Exception("Failed to save PDF file to disk");
         }
-        
+
         // Set relative path for database and response
         $relative_path = 'uploads/' . $filename;
     } elseif (!file_exists($file_path)) {
@@ -97,9 +97,9 @@ try {
         INSERT INTO generated_documents (request_id, template_id, file_path, user_id, created_at) 
         VALUES (?, ?, ?, ?, NOW())
     ");
-    
+
     $result = $stmt->execute([$request_id, $template_id, $relative_path, $user_id]);
-    
+
     if (!$result) {
         $errorInfo = $stmt->errorInfo();
         throw new Exception("Database insert failed: " . $errorInfo[2]);
@@ -107,7 +107,7 @@ try {
 
     // Get the generated document ID
     $document_id = $pdo->lastInsertId();
-    
+
     // Clean output buffer
     if (ob_get_level()) {
         ob_clean();
@@ -121,16 +121,34 @@ try {
         'document_id' => $document_id
     ]);
 
+    require_once __DIR__ . "/utils.php";
+
+    // Fetch requestor and template for logs
+    $stmt = $pdo->prepare("SELECT firstname, lastname FROM document_requests WHERE request_id = ?");
+    $stmt->execute([$request_id]);
+    $request = $stmt->fetch(PDO::FETCH_ASSOC);
+    $fullname = $request ? $request['firstname'] . ' ' . $request['lastname'] : "Unknown";
+
+    $stmt = $pdo->prepare("SELECT document_name FROM document_templates WHERE template_id = ?");
+    $stmt->execute([$template_id]);
+    $template = $stmt->fetch(PDO::FETCH_ASSOC);
+    $templateName = $template['document_name'] ?? "Unknown";
+
+    // More descriptive log
+    logActivity(
+        $_SESSION['user_id'],
+        "Created a document for {$fullname} using template '{$templateName}'. File: {$relative_path}"
+    );
 } catch (Exception $e) {
     // Log the error
     error_log("Error in save_document.php: " . $e->getMessage());
     error_log("Stack trace: " . $e->getTraceAsString());
-    
+
     // Clean output buffer
     if (ob_get_level()) {
         ob_clean();
     }
-    
+
     // Return error response
     echo json_encode([
         'success' => false,
@@ -143,4 +161,3 @@ try {
 if (ob_get_level()) {
     ob_end_flush();
 }
-?>

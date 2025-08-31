@@ -10,7 +10,11 @@ $residents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt = $pdo->query("SELECT message_id, name, contact_number, email_address, subject, created_at, read_status FROM messages LIMIT 4");
 $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $pdo->query("SELECT request_id, firstname, middlename, lastname, document_type, purpose_of_request FROM document_requests LIMIT 4");
+$stmt = $pdo->query("SELECT request_id, firstname, middlename, lastname, document_type, purpose_of_request, is_archived, status 
+                     FROM document_requests 
+                     WHERE is_archived = 0 
+                     LIMIT 4");
+
 $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -23,7 +27,7 @@ $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Home - Tinga Labak</title>
     <link rel="icon" href="../imgs/brgy-logo.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="sidebar/styles.css">
     <link rel="stylesheet" href="css/home.css">
 </head>
@@ -57,7 +61,7 @@ $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php foreach ($messages as $message): ?>
                                         <tr>
                                             <td class="<?php echo $message['read_status'] == 0 ? 'unread' : ''; ?>">
-                                                <?php echo htmlspecialchars($message['name']); ?>
+                                                <a class="sender-name" href="messages.php"><?php echo htmlspecialchars($message['name']); ?></a>
                                             </td>
                                             <td>
                                                 <?php echo htmlspecialchars($message['subject']); ?>
@@ -90,6 +94,7 @@ $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <tr>
                                     <th>Document Type</th>
                                     <th>Resident</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,6 +107,7 @@ $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <tr>
                                             <td><?php echo htmlspecialchars($request['document_type']); ?></td>
                                             <td><?php echo htmlspecialchars(trim($request['firstname'] . ' ' . $request['middlename'] . ' ' . $request['lastname'])); ?></td>
+                                            <td><?php echo htmlspecialchars($request['status']); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
