@@ -64,7 +64,7 @@ $user = $stmt->fetch();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile - Tinga Labak</title>
-    <link rel="icon" href="../imgs/BatangasCity.png" type="image/jpg">
+    <link rel="icon" href="../imgs/brgy-logo.png" type="image/jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="sidebar/styles.css">

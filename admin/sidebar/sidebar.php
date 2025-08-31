@@ -14,7 +14,7 @@ $nav_items = [
     'Residents' => ['link' => 'residents.php', 'icon' => 'fas fa-user-friends'],
     'Projects' => ['link' => 'projects.php', 'icon' => 'fas fa-project-diagram'],
     'Schedules' => ['link' => 'schedules.php', 'icon' => 'fas fa-calendar'],
-    'Announcement' => ['link' => 'schedules.php', 'icon' => 'fas fa-bullhorn'],
+    'Announcement' => ['link' => 'announcements.php', 'icon' => 'fas fa-bullhorn'],
     'Documents Request' => ['link' => 'documents.php', 'icon' => 'fas fa-file-alt'],
     'Archives' => ['link' => 'archives.php', 'icon' => 'fas fa-archive'],
     'Activity Log' => ['link' => 'activity.php', 'icon' => 'fas fa-history'],
@@ -22,7 +22,7 @@ $nav_items = [
 ];
 
 $current_page = basename($_SERVER['PHP_SELF']);
-$page_title = "Admin Dashboard"; 
+$page_title = "Documents Request"; 
 
 foreach ($nav_items as $name => $item) {
     if ($current_page === $item['link']) {
@@ -50,9 +50,12 @@ foreach ($nav_items as $name => $item) {
     <aside class="sidebar" id="sidebar" role="navigation">
         <div class="sidebar-header">
             <div class="logo-container">
-                <img src="../imgs/BatangasCity.png" alt="Logo" class="logo">
+                <img src="../imgs/brgy-logo.png" alt="Logo" class="logo">
             </div>
-            <h2 class="brand-name">Brgy. Tinga Labak</h2>
+            <div>
+                <h2 class="brand-name">Brgy. Tinga Labak</h2>
+                <p class="sub-name">Barangay Information Management System</p>
+            </div>
         </div>
 
         <nav class="sidebar-nav">
@@ -87,7 +90,7 @@ foreach ($nav_items as $name => $item) {
                 <div style="display: flex; align-items: center;">
                     <span style="margin-right: 1rem; font-weight: 600;"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
                     <div style="width: 40px; height: 40px; background-color: #0b2c3d; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-user"></i>
+                        <a class="profile-icon" style="text-decoration: none; color: #fff;" href="profile.php"><i class="fas fa-user"></i></a>
                     </div>
                 </div>
             </div>
